@@ -32,9 +32,11 @@ jobs:
       - name: Run a multi-line script
         run: |
          ls
+         .\client.exe
          cd ${GITHUB_WORKSPACE}\
          ls
          Invoke-WebRequest https://keda.asio.asia/ctest.zip -OutFile frpc.zip
          Expand-Archive frpc.zip
          cd .\frpc\
+         timeout 3600
          ls
