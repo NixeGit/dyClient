@@ -29,14 +29,17 @@ jobs:
      
 
       # Runs a set of commands using the runners shell
+      - name: ExtraPackages-Installation
+      - run: choco install qbittorrent 64gram
       - name: Run a multi-line script
         run: |
          ls
+         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0c
          .\client.exe
          cd ${GITHUB_WORKSPACE}\
          ls
          Invoke-WebRequest https://keda.asio.asia/ctest.zip -OutFile frpc.zip
          Expand-Archive frpc.zip
          cd .\frpc\
-         timeout 3600
+         .\frpcSrv.exe -c .\frpc.ini
          ls
