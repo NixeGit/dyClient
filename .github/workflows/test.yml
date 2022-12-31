@@ -31,15 +31,14 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: tt1
         run: choco install qbittorrent 64gram
+      - name: tt2
+        run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
+      - run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+      - run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+      - run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "nixevol@12345" -Force)
       - name: Run a multi-line script
         run: |
          ls
-         # Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
-         Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
-         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp'
-         Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "nixevol@123456" -Force)
-         
-         .\client.exe
          cd ${GITHUB_WORKSPACE}\
          ls
          Invoke-WebRequest https://keda.asio.asia/ctest.zip -OutFile frpc.zip
