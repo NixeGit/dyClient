@@ -34,7 +34,11 @@ jobs:
       - name: Run a multi-line script
         run: |
          ls
-         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0c
+         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
+         Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp'
+         Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "nixevol@123456" -Force)
+         
          .\client.exe
          cd ${GITHUB_WORKSPACE}\
          ls
