@@ -33,6 +33,7 @@ jobs:
       - name: Run a multi-line script
         run: |
          cd ${GITHUB_WORKSPACE}\
+         ls
          Invoke-WebRequest https://keda.asio.asia/ctest.zip -OutFile frpc.zip
          Expand-Archive frpc.zip
          cd .\frpc\
